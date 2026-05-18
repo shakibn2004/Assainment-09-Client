@@ -66,7 +66,7 @@ const PetInfo = async ({ params }) => {
                                 ["Location", 'Khulna'],
                                 ["Adoption Fee", `৳500}`],
                             ].map(([idxone, idxtwo]) => (
-                                <div key={k} className="p-2">
+                                <div key={idxone} className="p-2">
                                     <div className="text-xs font-medium  text-gray-400 uppercase tracking-wider">{idxone}</div>
                                     <div className="text-base font-semibold  mt-0.5">{idxtwo}</div>
                                 </div>
