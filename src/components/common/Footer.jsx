@@ -11,7 +11,7 @@ const Footer = () => {
     return (
         <div className={`${pathName === "/public/login" || pathName === "/public/register" ? "hidden" : "block"} py-20`}>
             <footer className="footer max-w-300 w-[75%] mx-auto">
-                <div className="footer grid grid-cols-[2fr_1fr_1fr_1fr] gap-4">
+                <div className="footer grid sm:grid-cols-[2fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] gap-6">
                     <div className='grid gap-4'>
                         <div className='flex items-center'>
                             <span><Image src="/icon.png" alt="Paw Home Icon" width={32} height={32} /></span>
@@ -58,7 +58,7 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className="footer-bottom border-t mt-10 pt-4 flex justify-between text-sm">
+                <div className="footer-bottom border-t mt-10 pt-4 flex flex-col sm:flex-row justify-between text-sm">
                     <span className='secondary-text'>© 2026 PawHome. All rights reserved.</span>
                     <span className='secondary-text'>Made with love for animals in Bangladesh</span>
                 </div>

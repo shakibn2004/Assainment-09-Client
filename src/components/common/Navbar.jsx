@@ -12,14 +12,14 @@ const Navbar = () => {
     const currentPath = usePathname();
     const { showDropdown, setShowDropdown } = useShowDropDownMenu();
     return (
-        <nav className='flex justify-between max-w-300 w-[75%] p-4 items-center mx-auto relative border-b'>
+        <nav className='flex justify-between w-full p-4 items-center mx-auto relative border-b'>
             <div className='flex items-center'>
                 <span><Image src="/icon.png" alt="Paw Home Icon" width={32} height={32} /></span>
                 <span className='font-bold text-xl ml-1'>Paw</span>
                 <span className='font-bold text-xl primary-text ml-2'>Home</span>
             </div>
 
-            <div className="nav-links flex gap-6">
+            <div className="nav-links hidden md:flex gap-6">
                 {
                     [["/", "Home"], ["/public/all-pets", "All Pets"]].map(([p, l]) => (
                         <Link key={p} className={`nav-link ${currentPath === p ? "active primary-text" : ""}`} href={p}>
