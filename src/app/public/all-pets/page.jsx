@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const petPromised = await fetch("https://api.thecatapi.com/v1/images/search?limit=10")
+const pets = await petPromised.json();
 const AllPets = async () => {
-    const petPromised = await fetch("https://api.thecatapi.com/v1/images/search?limit=10")
-    const pets = await petPromised.json();
-    console.log(pets);
 
     return (
         <div className="max-w-300 w-[75%] mx-auto py-20 ">

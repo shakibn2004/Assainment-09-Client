@@ -11,6 +11,13 @@ const nextConfig = {
         pathname: '/images/**',
         search: '',
       },
+      {
+        protocol: 'https',
+        hostname: '30.media.tumblr.com',
+        port: '',
+        pathname: '**',
+        search: '',
+      },
     ],
   },
 };
