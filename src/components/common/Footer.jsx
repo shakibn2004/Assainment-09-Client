@@ -9,7 +9,7 @@ import { MdOutlineMail } from 'react-icons/md';
 const Footer = () => {
     const pathName = usePathname();
     return (
-        <div className={`${pathName === "/public/login" || pathName === "/public/register" ? "hidden" : "block"} py-20`}>
+        <div className={`${pathName === "/public/login" || pathName === "/public/register" ? "hidden" : "block"} py-20 secondary-bg`}>
             <footer className="footer max-w-300 w-[75%] mx-auto">
                 <div className="footer grid sm:grid-cols-[2fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] gap-6">
                     <div className='grid gap-4'>
