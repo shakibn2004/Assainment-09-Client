@@ -3,7 +3,7 @@ import React from 'react';
 
 const TopFooter = () => {
     return (
-        <section className="bg-amber-600 dark:bg-black py-16 px-4 sm:px-6 lg:px-8 text-center text-white">
+        <section className="primary-bg dark:bg-black py-16 px-4 sm:px-6 lg:px-8 text-center text-white">
             <div className="max-w-xl mx-auto space-y-6">
                 <h2 className="text-3xl sm:text-4xl font-bold font-serif tracking-tight">
                     Ready to Give a Pet a Forever Home?
