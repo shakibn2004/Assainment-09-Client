@@ -1,5 +1,6 @@
 import { auth } from '@/app/lib/auth';
 import DeleteListing from '@/components/common/DeleteListing';
+import EditKisting from '@/components/common/EditKisting';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 
@@ -104,11 +105,7 @@ const MyListings = async () => {
                                                     View
                                                 </button>
 
-                                                <button
-                                                    className="px-3 py-1.5 text-xs font-medium  hover:bg-amber-100 border border-amber-200 rounded-md transition-colors"
-                                                >
-                                                    Edit
-                                                </button>
+                                                <EditKisting id={pet._id} />
                                                 <DeleteListing id={pet._id} />
                                             </div>
                                         </div>
