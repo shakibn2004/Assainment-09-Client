@@ -1,16 +1,41 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import ThemeToggle from './ThemeToggle';
 import { useShowDropDownMenu } from '@/hookes/ShowDropDownMenu';
+import { authClient } from '@/app/lib/auth-client';
 
 const user = true;
 
 const Navbar = () => {
+    const router = useRouter()
     const currentPath = usePathname();
     const { showDropdown, setShowDropdown } = useShowDropDownMenu();
+    // user login or not
+    const {
+        data: session,
+        isPending,
+        error
+    } = authClient.useSession();
+
+    if (isPending) {
+        return <p>Loading...</p>;
+    }
+
+    // user signout
+    const handleSingOut = async () => {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push("/public/login"); // redirect to login page
+                },
+            },
+        });
+    }
+
+
     return (
         <nav className='flex justify-between w-full p-4 items-center mx-auto border-b sticky top-0 bg-white dark:bg-black z-10'>
             <div className='flex items-center'>
@@ -28,14 +53,14 @@ const Navbar = () => {
                     ))
                 }
                 {
-                    user && (
+                    session && (
                         <Link className={`nav-link ${currentPath === "/dashboard/my-requests" ? "active primary-text" : ""}`} href="/dashboard/my-requests">
                             My Requests
                         </Link>
                     )
                 }
                 {
-                    user && (
+                    session && (
                         <Link className={`nav-link ${currentPath === "/dashboard/add-pet" ? "active primary-text" : ""}`} href="/dashboard/add-pet">
                             Add Pet
                         </Link>
@@ -49,7 +74,7 @@ const Navbar = () => {
                 </div>
 
                 {
-                    user ? (
+                    session ? (
                         <div>
                             <div className="profile-btn cursor-pointer" onClick={() => setShowDropdown(d => !d)}>
                                 <h1>Profile</h1>
@@ -62,7 +87,7 @@ const Navbar = () => {
                                     </div>
                                     <Link href="/dashboard" className="dropdown-item" onClick={() => setShowDropdown(false)}>📊 Dashboard</Link>
                                     <Link href="/dashboard/my-listings" className="dropdown-item" onClick={() => setShowDropdown(false)}>📋 My Listings</Link>
-                                    <Link href="/public/login" className="dropdown-item" onClick={() => { setShowDropdown(false), !user }}>🚪 Logout</Link>
+                                    <button onClick={session ? handleSingOut : ""} className="dropdown-item" >{session ? "Logout" : "Login"}</button>
                                 </div>
                             )}
                         </div>

@@ -1,4 +1,5 @@
 'use client';
+import { authClient } from "@/app/lib/auth-client";
 import { Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,34 @@ import { useState } from "react";
 
 const Register = () => {
     const [password, setPassword] = useState('');
+
+    // butter auth resister
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const userData = Object.fromEntries(formData.entries());
+        
+        const {name, email, password} = userData;
+
+        const { data, error } = await authClient.signUp.email({
+            email,
+            password,
+            name,
+            callbackURL: "/dashboard"
+        }, {
+            onRequest: () => {
+                console.log('Loading...');
+            },
+
+            onSuccess: () => {
+                alert('signup success')
+            },
+
+            onError: (ctx) => {
+                alert(ctx.error.message);
+            },
+        });
+    };
     return (
         <div className='m-auto shadow-[0_0_10px_#000]/30 bg-white dark:bg-black border border-white rounded-2xl p-10'>
             <div className="auth flex flex-col gap-2 mb-6">
@@ -18,7 +47,7 @@ const Register = () => {
                 </p>
             </div>
 
-            <Form className="flex w-96 flex-col gap-4">
+            <Form onSubmit={handleSubmit} className="flex w-96 flex-col gap-4">
                 <TextField
                     isRequired
                     name="name"
@@ -54,7 +83,8 @@ const Register = () => {
                     minLength={8}
                     name="password"
                     type="password"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(value) => setPassword(value)}
+
                     validate={(value) => {
                         if (value.length < 8) {
                             return "Password must be at least 8 characters";
@@ -91,7 +121,7 @@ const Register = () => {
                     <FieldError />
                 </TextField>
                 <div className="flex flex-col gap-4">
-                    <button className="primary-btn w-full">Create Account</button>
+                    <button type="submit" className="primary-btn w-full">Create Account</button>
                     <p className="text-center">Already have an account? <Link href="/public/login" className="primary-text">Login</Link></p>
                 </div>
             </Form>

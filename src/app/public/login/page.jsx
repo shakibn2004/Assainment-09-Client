@@ -1,9 +1,36 @@
 'use client';
+import { authClient } from "@/app/lib/auth-client";
 import { Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 
 const Login = () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const userData = Object.fromEntries(formData.entries());
+
+        const { email, password } = userData;
+
+        const { data, error } = await authClient.signIn.email({
+            email, // required
+            password, // required
+            rememberMe: true,
+            callbackURL: "/dashboard",
+        }, {
+            onRequest: () => {
+                console.log('Loading...');
+            },
+
+            onSuccess: () => {
+                alert('signin success')
+            },
+
+            onError: (ctx) => {
+                alert(ctx.error.message);
+            },
+        });
+    };
     return (
         <div className='m-auto shadow-[0_0_10px_#000]/30 bg-white dark:bg-black border border-white rounded-2xl p-10'>
             <div className="auth flex flex-col gap-2 mb-6">
@@ -21,7 +48,7 @@ const Login = () => {
                 </div>
             </div>
 
-            <Form className="flex w-96 flex-col gap-4">
+            <Form onSubmit={handleSubmit} className="flex w-96 flex-col gap-4">
                 <TextField
                     isRequired
                     name="email"
@@ -61,7 +88,7 @@ const Login = () => {
                     <FieldError />
                 </TextField>
                 <div className="flex flex-col gap-4">
-                    <button className="primary-btn w-full">Login</button>
+                    <button type="submit" className="primary-btn w-full">Login</button>
                     <p className="text-center">Don't have an account? <Link href="/public/register" className="primary-text">Register</Link></p>
                 </div>
             </Form>

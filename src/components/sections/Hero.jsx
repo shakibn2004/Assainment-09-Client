@@ -2,10 +2,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import Features from './Features';
-const petsPromised = await fetch('https://api.thecatapi.com/v1/images/search?limit=10')
-const pets = await petsPromised.json()
 
 const Hero = async () => {
+    const petsPromised = await fetch('http://localhost:8000')
+    const pets = await petsPromised.json()
+
     return (
         <div>
             {/* Hero Section */}
@@ -45,7 +46,7 @@ const Hero = async () => {
                     <div className="grid grid-cols-2 gap-4 max-w-md mx-auto lg:max-w-none w-full">
                         {pets.slice(0, 4).map((p) => (
                             <div key={p.id} className="aspect-square rounded-2xl overflow-hidden shadow-md border-2 border-white transform hover:scale-105 transition-transform duration-300">
-                                <Image width={100} height={50} sizes='100vw' src={p.url} alt={p.id} className="w-full h-full object-cover" />
+                                <Image width={100} height={50} sizes='100vw' src={p.image} alt={p.name} className="w-full h-full object-cover" loading='lazy' />
                             </div>
                         ))}
                     </div>

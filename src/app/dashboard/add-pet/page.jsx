@@ -1,11 +1,41 @@
-'use client';
+'use client'
+import { authClient } from "@/app/lib/auth-client";
+import { redirect } from "next/navigation";
 
 const AddPet = () => {
     const addPet = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const userData = Object.fromEntries(formData.entries());
-        console.log(userData); 
+        // send data to server
+        try {
+            const res = await fetch('http://localhost:8000/dashboard/add-pet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
+            if (!res.ok) {
+                throw new Error('Failed to add user');
+            }
+    
+            return true;
+        } catch (error) {
+            console.error('Error adding user:', error);
+            return false;
+        }
+    }
+
+
+    const {
+        data: session,
+        isPending,
+        error
+    } = authClient.useSession();
+
+    if (isPending) {
+        return <p>Loading...</p>;
     }
 
     return (
@@ -57,7 +87,7 @@ const AddPet = () => {
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_health" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Health Status</label>
-                                <select id="ap_health" name="healthStatus" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
+                                <select id="ap_health" name="healthstatus" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
                                     <option value="excellent">Excellent</option>
                                     <option value="good">Good</option>
                                     <option value="fair">Fair</option>
@@ -66,22 +96,22 @@ const AddPet = () => {
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_image" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Pet Image URL</label>
-                                <input type="url" id="ap_image" name="imageUrl" placeholder="https://..." className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                                <input type="url" id="ap_image" name="image" placeholder="https://..." className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_fee" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Adoption Fee (৳)</label>
-                                <input type="number" id="ap_fee" name="adoptionFee" placeholder="500" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                                <input type="number" id="ap_fee" name="adoptionfee" placeholder="500" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_location" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Current Location</label>
-                                <input type="text" id="ap_location" name="location" placeholder="e.g. Dhaka" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                                <input type="text" id="ap_location" name="loaction" placeholder="e.g. Dhaka" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_vaccinated" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Is Vaccinated?</label>
-                                <select id="ap_vaccinated" name="isVaccinated" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
+                                <select id="ap_vaccinated" name="vaccinated" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
                                 </select>
@@ -94,13 +124,13 @@ const AddPet = () => {
 
                             <div className="flex flex-col gap-1 sm:col-span-2 mt-2">
                                 <label className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Listing Owner Email</label>
-                                <input type="email" name="ownerEmail" value="shakibn2004@gmail.com" readOnly className="px-3 py-2 text-sm rounded-md border border-zinc-200 bg-zinc-50 text-zinc-400 select-none cursor-not-allowed focus:outline-none" />
+                                <input type="email" name="owneremail" value={session.user.email} readOnly className="px-3 py-2 text-sm rounded-md border border-zinc-200 bg-zinc-50 text-zinc-400 select-none cursor-not-allowed focus:outline-none" />
                             </div>
 
                         </div>
 
                         <div className="flex items-center justify-end gap-3 border-t border-zinc-100 pt-6 mt-8">
-                            <button type="button" onClick={() => navigate('my-listings')} className="px-4 py-2 text-sm font-medium text-zinc-600 rounded-md hover:bg-zinc-50 active:bg-zinc-100 transition-colors">
+                            <button type="button" onClick={() => redirect('/dashboard/my-requests')} className="px-4 py-2 text-sm font-medium text-zinc-600 rounded-md hover:bg-zinc-50 active:bg-zinc-100 transition-colors">
                                 Cancel
                             </button>
                             <button type="submit" className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 active:bg-indigo-800 transition-colors">
