@@ -1,5 +1,6 @@
 
 import { auth } from '@/app/lib/auth';
+import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,13 +19,82 @@ const PetInfo = async ({ params }) => {
     });
     const pet = await petPromised.json();
 
+
     // Get Form data
     const pickupData = async (formData) => {
         'use server'
-        const pickupDate = formData.get("pickupDate");
 
-        console.log(formData.get("pickupDate"));
+        const data = Object.fromEntries(formData.entries());
+        const allData = { ...data, ...pet }
+        // send data to server
+        try {
+
+
+            //  POST adoption request
+
+
+            const res = await fetch(
+                `http://localhost:8000/public/all-pets/${petinfo}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(allData),
+                }
+            );
+
+
+            if (!res.ok) {
+                throw new Error('Failed to send adoption request');
+            }
+
+            const result = await res.json();
+
+
+
+
+            // UPDATE pet availability
+
+
+            const { _id, ...restPet } = pet;
+
+            const updatedPet = {
+                ...restPet,
+                isavailable: false
+            };
+
+
+            const response = await fetch(
+                `http://localhost:8000/dashboard/my-listings/${petinfo}`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedPet),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error('Failed to update pet');
+            }
+
+            const updateResult = await response.json();
+
+
+            // Sccess
+            revalidatePath(`/public/all-pets/${[petinfo]}`)
+
+        } catch (error) {
+
+            console.error("Error:", error);
+
+        }
+
+
     }
+
     return (
         <div className='flex flex-col flex-1'>
             <div className="max-w-7xl mx-auto px-4 py-8">
@@ -61,7 +131,7 @@ const PetInfo = async ({ params }) => {
                     </div>
 
 
-                    <div className="space-y-6">
+                    <div className="space-y-6 ">
                         <div>
                             <h1 className="text-3xl  font-bold">{pet.name}</h1>
                             <p className="text-lg text-gray-500 mt-1">{'breed'} · {pet.species}</p>
@@ -112,59 +182,74 @@ const PetInfo = async ({ params }) => {
 
                                 ) : ("")
                             }
-
-                            <div className="text-sm border border-blue-100 rounded-xl p-3">
-                                You cannot adopt your own pet.
-                            </div>
-
-                            <div className="border border-emerald-500 p-4 rounded-xl font-medium text-sm">
-                                ✓ You have already submitted a request for {pet.name}.
-                            </div>
-
-                            <form className="space-y-4" action={pickupData}>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Pet Name</label>
-                                        <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={pet.name} readOnly />
+                            {
+                                pet.owneremail === session.user.email ? (
+                                    <div className="text-xl text-red-600 border border-red-600 rounded-xl p-3">
+                                        You cannot adopt your own pet.
                                     </div>
-                                    <div>
-                                        <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Name</label>
-                                        <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session.user.name} readOnly />
+
+                                ) : ('')
+                            }
+
+                            {
+                                pet.isavailable ? ('') : (
+                                    <div className={`${pet.owneremail === session.user.email ? 'hidden' : 'block'} border border-emerald-500 p-4 rounded-xl font-medium text-sm`}>
+                                        ✓ You have already submitted a request for {pet.name}.
                                     </div>
-                                </div>
 
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Email</label>
-                                    <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session.user.email} readOnly />
-                                </div>
+                                )
+                            }
 
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Preferred Pickup Date *</label>
-                                    <input
-                                        className="w-full border border-gray-300/30 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none rounded-lg px-3 py-2 text-sm transition-all"
-                                        type="date"
-                                        name='pickupDate'
-                                        min={new Date().toISOString().split("T")[0]}
-                                    />
-                                </div>
+                            {
+                                pet?.isavailable ? (
+                                    <form className={`space-y-4 ${pet.owneremail === session.user.email ? 'hidden' : 'block'}`} action={pickupData}>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Pet Name</label>
+                                                <input name='name' className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={pet.name} readOnly />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Name</label>
+                                                <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session.user.name} readOnly />
+                                            </div>
+                                        </div>
 
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Message to Owner</label>
-                                    <textarea
-                                        className="w-full border border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:outline-none rounded-lg px-3 py-2 text-sm transition-all min-h-20 resize-y"
-                                        placeholder="Tell the owner a bit about yourself and why you want to adopt..."
-                                        name="massage"
-                                    />
-                                </div>
+                                        <div>
+                                            <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Email</label>
+                                            <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session.user.email} readOnly />
+                                        </div>
 
-                                <button
-                                    type='submit'
-                                    className="w-full primary-btn flex justify-center items-center gap-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-sm transition-colors mt-2"
+                                        <div>
+                                            <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Preferred Pickup Date *</label>
+                                            <input
+                                                className="w-full border border-gray-300/30 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none rounded-lg px-3 py-2 text-sm transition-all"
+                                                type="date"
+                                                name='pickupdate'
+                                                min={new Date().toISOString().split("T")[0]}
+                                            />
+                                        </div>
 
-                                >
-                                    Adopt {pet.name}
-                                </button>
-                            </form>
+                                        <div>
+                                            <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Message to Owner</label>
+                                            <textarea
+                                                className="w-full border border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:outline-none rounded-lg px-3 py-2 text-sm transition-all min-h-20 resize-y"
+                                                placeholder="Tell the owner a bit about yourself and why you want to adopt..."
+                                                name="message"
+                                            />
+                                        </div>
+
+                                        <button
+                                            type='submit'
+                                            className="w-full primary-btn flex justify-center items-center gap-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-sm transition-colors mt-2"
+
+                                        >
+                                            Adopt {pet.name}
+                                        </button>
+                                    </form>
+
+                                ) : ('')
+                            }
+
 
                         </div>
 

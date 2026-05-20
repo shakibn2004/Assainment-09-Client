@@ -109,8 +109,8 @@ const AddPet = () => {
                                 <input type="text" id="ap_location" name="loaction" placeholder="e.g. Dhaka" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label htmlFor="ap_location" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">AVAILABILITY</label>
-                                <input type="text" id="ap_location" name="isavailable" placeholder="e.g. Dhaka" className="px-3 py-2 focus:outline-none bg-white" value="AVAILABLE" readOnly/>
+                                <label htmlFor="ap_location" className="text-xs font-semibold uppercase tracking-wide text-zinc-500 hidden">AVAILABILITY</label>
+                                <input type="text" id="ap_location" name="isavailable" placeholder="e.g. Dhaka" className="px-3 py-2 focus:outline-none bg-white hidden" value="true" readOnly/>
                             </div>
 
                             <div className="flex flex-col gap-1">
