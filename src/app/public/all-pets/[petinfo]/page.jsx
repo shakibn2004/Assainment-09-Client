@@ -1,8 +1,15 @@
+
+import { auth } from '@/app/lib/auth';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+
 
 const PetInfo = async ({ params }) => {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+
     const petObj = await params;
     const { petinfo } = petObj;
 
@@ -10,6 +17,14 @@ const PetInfo = async ({ params }) => {
         cache: 'no-store'
     });
     const pet = await petPromised.json();
+
+    // Get Form data
+    const pickupData = async (formData) => {
+        'use server'
+        const pickupDate = formData.get("pickupDate");
+
+        console.log(formData.get("pickupDate"));
+    }
     return (
         <div className='flex flex-col flex-1'>
             <div className="max-w-7xl mx-auto px-4 py-8">
@@ -82,17 +97,21 @@ const PetInfo = async ({ params }) => {
                                 Submit Adoption Request
                             </h2>
 
+                            {
+                                !session ? (
+                                    <div className={`${'text-center py-4'}`}>
+                                        <p className="mb-4 text-sm">Please log in to submit an adoption request.</p>
+                                        <Link
+                                            href={'/public/login'}
+                                            className="w-full primary-btn sm:w-auto px-6 py-2.5  font-medium rounded-xl shadow-sm text-sm"
 
-                            <div className="text-center py-4">
-                                <p className="mb-4 text-sm">Please log in to submit an adoption request.</p>
-                                <Link
-                                    href={'/public/login'}
-                                    className="w-full primary-btn sm:w-auto px-6 py-2.5  font-medium rounded-xl shadow-sm text-sm"
+                                        >
+                                            Login to Adopt
+                                        </Link>
+                                    </div>
 
-                                >
-                                    Login to Adopt
-                                </Link>
-                            </div>
+                                ) : ("")
+                            }
 
                             <div className="text-sm border border-blue-100 rounded-xl p-3">
                                 You cannot adopt your own pet.
@@ -102,21 +121,21 @@ const PetInfo = async ({ params }) => {
                                 ✓ You have already submitted a request for {pet.name}.
                             </div>
 
-                            <div className="space-y-4">
+                            <form className="space-y-4" action={pickupData}>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Pet Name</label>
-                                        <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={'Luna'} readOnly />
+                                        <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={pet.name} readOnly />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Name</label>
-                                        <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={'shakib'} readOnly />
+                                        <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session.user.name} readOnly />
                                     </div>
                                 </div>
 
                                 <div>
                                     <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Email</label>
-                                    <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={'shakibn2002@gmail.com'} readOnly />
+                                    <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session.user.email} readOnly />
                                 </div>
 
                                 <div>
@@ -124,8 +143,7 @@ const PetInfo = async ({ params }) => {
                                     <input
                                         className="w-full border border-gray-300/30 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none rounded-lg px-3 py-2 text-sm transition-all"
                                         type="date"
-                                        value={'pickupDate'}
-
+                                        name='pickupDate'
                                         min={new Date().toISOString().split("T")[0]}
                                     />
                                 </div>
@@ -133,20 +151,20 @@ const PetInfo = async ({ params }) => {
                                 <div>
                                     <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Message to Owner</label>
                                     <textarea
-                                        className="w-full border border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:outline-none rounded-lg px-3 py-2 text-sm transition-all min-h-[80px] resize-y"
+                                        className="w-full border border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:outline-none rounded-lg px-3 py-2 text-sm transition-all min-h-20 resize-y"
                                         placeholder="Tell the owner a bit about yourself and why you want to adopt..."
-                                        value={'message'}
-
+                                        name="massage"
                                     />
                                 </div>
 
                                 <button
+                                    type='submit'
                                     className="w-full primary-btn flex justify-center items-center gap-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-sm transition-colors mt-2"
 
                                 >
                                     Adopt {pet.name}
                                 </button>
-                            </div>
+                            </form>
 
                         </div>
 

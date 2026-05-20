@@ -53,12 +53,12 @@ const AddPet = () => {
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_name" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Pet Name</label>
-                                <input type="text" name="name" id="ap_name" placeholder="e.g. Biscuit" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                                <input type="text" name="name" id="ap_name" placeholder="e.g. Biscuit" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required/>
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_species" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Species</label>
-                                <select id="ap_species" name="species" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
+                                <select id="ap_species" name="species" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required>
                                     <option value="dog">Dog</option>
                                     <option value="cat">Cat</option>
                                     <option value="bird">Bird</option>
@@ -69,17 +69,17 @@ const AddPet = () => {
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_breed" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Breed / Type</label>
-                                <input type="text" id="ap_breed" name="breed" placeholder="e.g. Golden Retriever" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                                <input type="text" id="ap_breed" name="breed" placeholder="e.g. Golden Retriever" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required/>
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_age" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Age (years)</label>
-                                <input type="number" id="ap_age" name="age" placeholder="2" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                                <input type="number" id="ap_age" name="age" placeholder="2" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required/>
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_gender" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Gender</label>
-                                <select id="ap_gender" name="gender" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
+                                <select id="ap_gender" name="gender" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -87,7 +87,7 @@ const AddPet = () => {
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_health" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Health Status</label>
-                                <select id="ap_health" name="healthstatus" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
+                                <select id="ap_health" name="healthstatus" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required>
                                     <option value="excellent">Excellent</option>
                                     <option value="good">Good</option>
                                     <option value="fair">Fair</option>
@@ -96,17 +96,21 @@ const AddPet = () => {
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_image" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Pet Image URL</label>
-                                <input type="url" id="ap_image" name="image" placeholder="https://..." className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                                <input type="url" id="ap_image" name="image" placeholder="https://..." className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white"/>
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_fee" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Adoption Fee (৳)</label>
-                                <input type="number" id="ap_fee" name="adoptionfee" placeholder="500" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                                <input type="number" id="ap_fee" name="adoptionfee" placeholder="500" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required/>
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="ap_location" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Current Location</label>
                                 <input type="text" id="ap_location" name="loaction" placeholder="e.g. Dhaka" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label htmlFor="ap_location" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">AVAILABILITY</label>
+                                <input type="text" id="ap_location" name="isavailable" placeholder="e.g. Dhaka" className="px-3 py-2 focus:outline-none bg-white" value="AVAILABLE" readOnly/>
                             </div>
 
                             <div className="flex flex-col gap-1">
@@ -130,11 +134,11 @@ const AddPet = () => {
                         </div>
 
                         <div className="flex items-center justify-end gap-3 border-t border-zinc-100 pt-6 mt-8">
-                            <button type="button" onClick={() => redirect('/dashboard/my-requests')} className="px-4 py-2 text-sm font-medium text-zinc-600 rounded-md hover:bg-zinc-50 active:bg-zinc-100 transition-colors">
+                            <button type="button" onClick={() => redirect('/dashboard/my-requests')} className="px-4 py-2 secondary-border rounded-md transition-colors">
                                 Cancel
                             </button>
-                            <button type="submit" className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 active:bg-indigo-800 transition-colors">
-                                <span>🐾</span> Add Pet
+                            <button type="submit" className="primary-btn transition-colors">
+                                Add Pet
                             </button>
                         </div>
 

@@ -31,7 +31,7 @@ const DeleteListing = ({ id }) => {
 
             <button
                 onClick={handleDeletePet}
-                className="px-3 py-1.5 text-xs font-medium hover:bg-rose-100 border border-rose-200 rounded-md transition-colors"
+                className="px-3 py-1.5 primary-btn font-bold"
             >
                 Delete
             </button>

@@ -1,24 +1,30 @@
 'use client'
+
+import { useRouter } from "next/navigation";
+import EditModal from "./EditModal";
+
 const EditKisting = ({ id }) => {
+    const router = useRouter()
     const handleEdit = async (e) => {
         e.preventDefault()
+        const formData = new FormData(e.currentTarget);
+        const userData = Object.fromEntries(formData.entries());
 
         try {
             const response = await fetch(`http://localhost:8000/dashboard/my-listings/${id}`, {
-                method: 'PUT', 
+                method: 'PATCH',
                 headers: {
-                    'Content-Type': 'application/json', 
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 'name': 'shakib' }), 
+                body: JSON.stringify(userData),
             });
 
             const data = await response.json();
 
-            if (data.success) {
-                alert("Data Edit Safol hoyeche!");
-                console.log(data.updatedUser);
+            if (data.modifiedCount > 0) {
+                router.refresh()
             } else {
-                alert("Kono somosha hoyeche.");
+                console.log('server error');
             }
         } catch (error) {
             console.error("Error updating data:", error);
@@ -27,12 +33,7 @@ const EditKisting = ({ id }) => {
 
     return (
         <div>
-            <button
-                onClick={handleEdit}
-                className="px-3 py-1.5 text-xs font-medium  hover:bg-amber-100 border border-amber-200 rounded-md transition-colors"
-            >
-                Edit
-            </button>
+            <EditModal handleEdit={handleEdit} />
         </div>
     );
 };

@@ -14,10 +14,6 @@ const Dashboad = () => {
         return <p>Loading...</p>;
     }
 
-    {
-        session ? redirect('/dashboard') : redirect('/public/login')
-    }
-
 
     return (
         <div className="mx-auto w-full p-10">

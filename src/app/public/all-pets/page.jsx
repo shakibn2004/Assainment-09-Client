@@ -37,7 +37,7 @@ const AllPets = async () => {
                                     </span>
                                 </div>
                                     <div className="pet-card-body p-3">
-                                        <div style={{ fontFamily: "'Fraunces', serif" }} className="pet-card-name font-bold text-[1.25rem]">{pet.name.split(" ").slice(0, 1)}</div>
+                                        <div style={{ fontFamily: "'Fraunces', serif" }} className="pet-card-name font-bold text-[1.25rem]">{pet.name}</div>
                                         <div className="pet-card-breed">{pet.breed}</div>
                                         <div className="pet-card-tags my-2 flex gap-3">
                                             <span className="tag secondary-border w-fit px-2 py-1 rounded-full flex items-center">{pet.age}</span>

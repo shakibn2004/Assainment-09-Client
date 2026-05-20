@@ -66,6 +66,7 @@ const MyListings = async () => {
                                                 <Image
                                                     src={pet.image}
                                                     alt={pet.name}
+                                                    width={0} height={0} sizes='100vw' style={{width: '50px', height: '50px'}}
                                                     className="h-24 w-full sm:w-24 rounded-lg object-cover  shrink-0"
                                                 />
 
@@ -77,36 +78,37 @@ const MyListings = async () => {
                                         {/* Content & Action Controls */}
                                         <div className="flex flex-col sm:flex-row sm:items-center justify-between flex-1 gap-4 min-w-0">
                                             <div>
-                                                <h3 className="font-semibold  text-base leading-tight">
+                                                <h3 className="font-semibold uppercase  text-base leading-tight">
                                                     {pet.name}
                                                 </h3>
                                                 <p className="text-xs mt-1">
-                                                    {pet.breed}
+                                                    {pet.breed} <span className='font-bold ml-1'>${pet.adoptionfee}</span>
                                                 </p>
 
-                                                <span className={`inline-block rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider shadow-sm border mt-2
+                                                <span className={`inline-block rounded-full ${pet.isavailable?'bg-green-400/30 text-green-700':'bg-red-400/30 text-red-600'} px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider border mt-2
           `}
                                                 >
-                                                    {pet.status}
+                                                    {pet.isavailable?"AVAILABE":"NOT AVAILABE"}
                                                 </span>
                                             </div>
 
                                             {/* Operational Group Buttons */}
                                             <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                                                 <button
-                                                    className="px-3 py-1.5 text-xs font-medium text-zinc-700  hover:bg-zinc-200 rounded-md transition-colors"
+                                                    className="px-3 py-1.5 font-bold secondary-border rounded-md transition-colors"
                                                 >
-                                                    📩Requests ({'petRequests.length'})
+                                                    Requests ({'petRequests.length'})
                                                 </button>
 
                                                 <button
-                                                    className="px-3 py-1.5 text-xs font-medium text-zinc-600 hover:bg-zinc-50 border rounded-md transition-colors"
+                                                    className="px-3 py-1.5 font-bold secondary-border rounded-md transition-colors"
                                                 >
                                                     View
                                                 </button>
 
                                                 <EditKisting id={pet._id} />
                                                 <DeleteListing id={pet._id} />
+                                                
                                             </div>
                                         </div>
                                     </div>
