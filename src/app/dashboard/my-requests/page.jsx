@@ -1,11 +1,17 @@
+import { auth } from '@/app/lib/auth';
 import HandleCancelRequest from '@/components/common/HandleCancelRequest';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
 const MyRequests = async () => {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
     const myRequestedDataPromised = await fetch('http://localhost:8000/public/all-adopted-pets');
-    const myRequestedData = await myRequestedDataPromised.json();
+    const allRequestedData = await myRequestedDataPromised.json();
+    const myRequestedData = allRequestedData.filter(rq => rq.buyeremail === session.user.email)
 
 
     return (
@@ -67,7 +73,7 @@ const MyRequests = async () => {
                                                                 width={0}
                                                                 height={0}
                                                                 sizes='100vw'
-                                                                style={{width: '50px', height: '50px'}}
+                                                                style={{ width: '50px', height: '50px' }}
                                                                 className="h-10 w-10 shrink-0 rounded-lg object-cover bg-zinc-100"
                                                             />
                                                             <span className="font-semibold text-zinc-900">
@@ -100,9 +106,9 @@ const MyRequests = async () => {
                                                                 href={`/public/all-pets/${d._id}`}
                                                                 className="rounded-md border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 shadow-sm hover:bg-zinc-50 transition-colors"
                                                             >
-                                                                 View
+                                                                View
                                                             </Link>
-                                                            
+
                                                             <HandleCancelRequest myRequestedData={myRequestedData} id={d._id} />
 
                                                         </div>
