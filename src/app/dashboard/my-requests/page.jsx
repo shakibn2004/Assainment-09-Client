@@ -1,5 +1,6 @@
 import HandleCancelRequest from '@/components/common/HandleCancelRequest';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const MyRequests = async () => {
@@ -77,7 +78,7 @@ const MyRequests = async () => {
 
                                                     {/* Metadata cell dates */}
                                                     <td className="p-4 whitespace-nowrap text-zinc-500">
-                                                        {'request.requestDate'}
+                                                        {d.requestdate}
                                                     </td>
                                                     <td className="p-4 whitespace-nowrap text-zinc-500">
                                                         {d.pickupdate}
@@ -88,19 +89,19 @@ const MyRequests = async () => {
                                                         <span className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium border
         
                       `}>
-                                                            {'request.status'}
+                                                            {d.requeststatus}
                                                         </span>
                                                     </td>
 
                                                     {/* Row interactive action buttons */}
                                                     <td className="p-4 whitespace-nowrap text-right">
                                                         <div className="inline-flex items-center gap-2">
-                                                            <button
-
+                                                            <Link
+                                                                href={`/public/all-pets/${d._id}`}
                                                                 className="rounded-md border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 shadow-sm hover:bg-zinc-50 transition-colors"
                                                             >
-                                                                👁 View
-                                                            </button>
+                                                                 View
+                                                            </Link>
                                                             
                                                             <HandleCancelRequest myRequestedData={myRequestedData} id={d._id} />
 

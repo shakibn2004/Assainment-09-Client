@@ -1,8 +1,9 @@
 'use client'
 
 import { useRouter } from "next/navigation";
+import DeleteListingModal from "./DeleteListingModal";
 
-const DeleteListing = ({ id }) => {
+const DeleteListing = ({ id, petName }) => {
     const router = useRouter()
 
     // delete mylisted pets
@@ -28,13 +29,7 @@ const DeleteListing = ({ id }) => {
 
     return (
         <div>
-
-            <button
-                onClick={handleDeletePet}
-                className="px-3 py-1.5 primary-btn font-bold"
-            >
-                Delete
-            </button>
+            <DeleteListingModal handleDeletePet={handleDeletePet} petName={petName} />
         </div>
     );
 };

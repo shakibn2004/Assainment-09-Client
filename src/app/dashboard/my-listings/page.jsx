@@ -3,6 +3,7 @@ import DeleteListing from '@/components/common/DeleteListing';
 import EditKisting from '@/components/common/EditKisting';
 import { headers } from 'next/headers';
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 const MyListings = async () => {
@@ -44,12 +45,12 @@ const MyListings = async () => {
                             <div className="text-4xl mb-3">🐾</div>
                             <h4 className="text-base font-semibold">No listings yet</h4>
                             <p className="text-sm text-zinc-500 mt-1 mb-5">Ready to find a forever home for a pet?</p>
-                            <button
-
-                                className="inline-flex items-center justify-center rounded-lg  px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 active:bg-indigo-800"
+                            <Link
+                                href={'/dashboard/add-pet'}
+                                className="inline-flex items-center justify-center rounded-lg  px-4 py-2 primary-btn"
                             >
                                 Add Your First Pet
-                            </button>
+                            </Link>
                         </div>
 
                     ) : (
@@ -97,17 +98,18 @@ const MyListings = async () => {
                                                 <button
                                                     className="px-3 py-1.5 font-bold secondary-border rounded-md transition-colors"
                                                 >
-                                                    Requests ({'petRequests.length'})
+                                                    Requests
                                                 </button>
 
-                                                <button
+                                                <Link
+                                                href={`/public/all-pets/${pet._id}`}
                                                     className="px-3 py-1.5 font-bold secondary-border rounded-md transition-colors"
                                                 >
                                                     View
-                                                </button>
+                                                </Link>
 
                                                 <EditKisting id={pet._id} />
-                                                <DeleteListing id={pet._id} />
+                                                <DeleteListing id={pet._id} petName={pet.name} />
                                                 
                                             </div>
                                         </div>
