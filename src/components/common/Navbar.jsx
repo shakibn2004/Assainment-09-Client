@@ -77,13 +77,13 @@ const Navbar = () => {
                     session ? (
                         <div>
                             <div className="profile-btn cursor-pointer" onClick={() => setShowDropdown(d => !d)}>
-                                <h1>Profile</h1>
+                                <h1 className='text-[2.2rem] font-bold primary-bg text-white p-1 rounded-full w-12 h-12 flex items-center justify-center'>{session?.user?.name.slice(0, 1)}</h1>
                             </div>
                             {showDropdown && (
                                 <div className="dropdown absolute right-0 top-16 w-48 bg-white dark:bg-black border rounded-lg shadow-lg p-4 z-10">
                                     <div className='border-b mb-2 pb-2'>
-                                        <div className='font-bold'>Nazmus Shakib</div>
-                                        <div className='truncate secondary-text'>nazmus.shakib@example.com</div>
+                                        <div className='font-bold'>{session?.user?.name}</div>
+                                        <div className='truncate secondary-text'>{session?.user?.email}</div>
                                     </div>
                                     <Link href="/dashboard" className="dropdown-item" onClick={() => setShowDropdown(false)}>📊 Dashboard</Link>
                                     <Link href="/dashboard/my-listings" className="dropdown-item" onClick={() => setShowDropdown(false)}>📋 My Listings</Link>

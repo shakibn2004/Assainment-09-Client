@@ -31,6 +31,12 @@ const Login = () => {
             },
         });
     };
+
+    const handleGoogleSignin = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
+    }
     return (
         <div className='m-auto shadow-[0_0_10px_#000]/30 bg-white dark:bg-black border border-white rounded-2xl p-10'>
             <div className="auth flex flex-col gap-2 mb-6">
@@ -40,7 +46,7 @@ const Login = () => {
                 <h1 className="auth-title text-[2rem] font-bold">Welcome back</h1>
                 <p className="auth-sub secondary-text -mt-2">Log in to your PawHome account</p>
 
-                <button className="google-btn secondary-bg my-5 secondary-border py-2 font-semibold rounded-lg flex items-center justify-center gap-2">
+                <button onClick={handleGoogleSignin} className="google-btn secondary-bg my-5 secondary-border py-2 font-semibold rounded-lg flex items-center justify-center gap-2">
                     <span className="text-[1.2rem]">G</span> Continue with Google
                 </button>
                 <div className="divider border-t border-[#f5f0e8]">
