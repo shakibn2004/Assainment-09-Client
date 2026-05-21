@@ -2,12 +2,24 @@ import { betterAuth } from "better-auth";
 
 export const auth = betterAuth({
 
-    emailAndPassword: { 
-      enabled: true, 
-    },  
-    //... other config options
-    // session: {
-    //     expiresIn: 20,  // 7 days
-    //     updateAge: 20, // 1 day (every 1 day the session expiration is updated)
-    // },
+  emailAndPassword: {
+    enabled: true,
+  },
+  baseURL: "http://localhost:3000",
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
+  },
+
 });
+
+
+// baseURL: process.env.BETTER_AUTH_URL,
+//   socialProviders: {
+//   google: {
+//     clientId: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+//         },
+// },

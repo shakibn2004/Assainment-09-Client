@@ -23,9 +23,9 @@ const PetInfo = async ({ params }) => {
     // Get Form data
     const pickupData = async (formData) => {
         'use server'
-
+        const today = new Date().toISOString().split("T")[0];
         const data = Object.fromEntries(formData.entries());
-        const allData = { ...data, ...pet }
+        const allData = { ...data, ...pet, requeststatus: "pending", requestdate: today}
         // send data to server
         try {
 
@@ -61,7 +61,7 @@ const PetInfo = async ({ params }) => {
 
             const updatedPet = {
                 ...restPet,
-                isavailable: false
+                isavailable: false,
             };
 
 
@@ -79,8 +79,6 @@ const PetInfo = async ({ params }) => {
             if (!response.ok) {
                 throw new Error('Failed to update pet');
             }
-
-            const updateResult = await response.json();
 
 
             // Sccess
@@ -139,9 +137,9 @@ const PetInfo = async ({ params }) => {
 
 
 
-                        {/* <div className="bg-red-50 text-red-700 border border-red-200 px-4 py-3 rounded-xl font-semibold text-sm">
-                                 This pet has already been adopted.
-                            </div> */}
+                        <div className={`${pet.isavailable ? 'hidden' : 'block'} bg-red-50 text-red-700 border border-red-200 px-4 py-3 rounded-xl font-semibold text-sm`}>
+                            This pet has already been adopted.
+                        </div>
 
 
                         <div className="grid grid-cols-2 gap-4  p-4 rounded-xl border border-gray-50/30">
@@ -162,7 +160,7 @@ const PetInfo = async ({ params }) => {
 
 
 
-                        <div className="border border-white/30  shadow-sm rounded-2xl p-6">
+                        <div className={`${pet.isavailable ? 'block' : 'hidden'} border border-white/30  shadow-sm rounded-2xl p-6`}>
                             <h2 className="text-lg font-bold  flex items-center gap-2 mb-4">
                                 Submit Adoption Request
                             </h2>
@@ -183,7 +181,7 @@ const PetInfo = async ({ params }) => {
                                 ) : ("")
                             }
                             {
-                                pet.owneremail === session.user.email ? (
+                                pet.owneremail === session?.user?.email ? (
                                     <div className="text-xl text-red-600 border border-red-600 rounded-xl p-3">
                                         You cannot adopt your own pet.
                                     </div>
@@ -193,7 +191,7 @@ const PetInfo = async ({ params }) => {
 
                             {
                                 pet.isavailable ? ('') : (
-                                    <div className={`${pet.owneremail === session.user.email ? 'hidden' : 'block'} border border-emerald-500 p-4 rounded-xl font-medium text-sm`}>
+                                    <div className={`${pet.owneremail === session?.user?.email || !session?.user?.email ? 'hidden' : 'block'} border border-emerald-500 p-4 rounded-xl font-medium text-sm`}>
                                         ✓ You have already submitted a request for {pet.name}.
                                     </div>
 
@@ -202,7 +200,7 @@ const PetInfo = async ({ params }) => {
 
                             {
                                 pet?.isavailable ? (
-                                    <form className={`space-y-4 ${pet.owneremail === session.user.email ? 'hidden' : 'block'}`} action={pickupData}>
+                                    <form className={`space-y-4 ${pet.owneremail === session?.user?.email || !session?.user?.email ? 'hidden' : 'block'}`} action={pickupData}>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Pet Name</label>
@@ -210,13 +208,13 @@ const PetInfo = async ({ params }) => {
                                             </div>
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Name</label>
-                                                <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session.user.name} readOnly />
+                                                <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session?.user?.name} readOnly />
                                             </div>
                                         </div>
 
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Email</label>
-                                            <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session.user.email} readOnly />
+                                            <input name="buyeremail" className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session?.user?.email} readOnly />
                                         </div>
 
                                         <div>
@@ -226,6 +224,7 @@ const PetInfo = async ({ params }) => {
                                                 type="date"
                                                 name='pickupdate'
                                                 min={new Date().toISOString().split("T")[0]}
+                                                required
                                             />
                                         </div>
 
