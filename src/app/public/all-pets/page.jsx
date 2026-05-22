@@ -6,14 +6,7 @@ import Link from "next/link";
 
 const AllPets = async () => {
 
-    const { token } = await auth.api.getToken({
-        headers: await headers()
-    })
-    const petPromised = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}`, {
-        headers: {
-            authorization: `Bearer ${token}`
-        }
-    });
+    const petPromised = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}`);
     const pets = await petPromised.json();
 
 
