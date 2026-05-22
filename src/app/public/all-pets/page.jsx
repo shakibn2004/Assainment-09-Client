@@ -1,4 +1,5 @@
 import { auth } from "@/app/lib/auth";
+import Search from "@/components/common/Search";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,7 +15,7 @@ const AllPets = async () => {
         }
     });
     const pets = await petPromised.json();
-    console.log(pets);
+
 
     return (
         <div className="max-w-300 w-[90%] lg:w-[75%] mx-auto py-20 ">
@@ -24,49 +25,8 @@ const AllPets = async () => {
                 <p className="secondary-text font-semibold">Browse, search, and filter to find your perfect companion.</p>
             </div>
 
-            <div className="grid grid-cols-[2fr_1fr] my-4 gap-3">
-                <input type="search" placeholder="Search pets by name" className="secondary-border grow-4 rounded p-2 focus:outline-1 outline-[#e8622a]" />
-                <select name="" className="secondary-border grow rounded py-2.5 px-2 focus:outline-1 outline-[#e8622a]" id="">
-                    <option value="">All</option>
-                    <option value="">Dogs</option>
-                    <option value="">Cats</option>
-                    <option value="">Birds</option>
-                    <option value="">Rabbits</option>
-                </select>
-                <div className="total-found secondary-text col-start-2 place-self-end px-2">Founds{pets.length}</div>
-            </div>
+            <Search pets={pets} />
 
-            <div className="pets-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {
-                    pets.map((pet, idx) => {
-                        return (
-                            <div key={idx} className="pet-card mt-12 secondary-border rounded-2xl">
-                                <div className="pet-card h-50 relative overflow-hidden">
-                                    <Image width={0} height={0} src={pet.image} sizes="100vw" style={{ width: '100%', height: '100%' }} className='rounded-t-2xl' alt={pet.name} loading="lazy" />
-                                    <span className={`pet-status-badge absolute top-3 right-5 uppercase ${pet.isavailable ? "text-[#166534] bg-[#d1f4e0]" : "text-[#ffffff] bg-[#ff0000c2]"} font-semibold px-2 py-1 rounded-full text-[12px]`}>
-                                        {pet.isavailable ? "AVAILABE" : "NOT AVAILABE"}
-                                    </span>
-                                </div>
-                                <div className="pet-card-body p-3">
-                                    <div style={{ fontFamily: "'Fraunces', serif" }} className="pet-card-name font-bold text-[1.25rem]">{pet.name}</div>
-                                    <div className="pet-card-breed">{pet.breed}</div>
-                                    <div className="pet-card-tags my-2 flex gap-3">
-                                        <span className="tag secondary-border w-fit px-2 py-1 rounded-full flex items-center">{pet.age}</span>
-                                        <span className="tag secondary-border w-fit px-2 py-1 rounded-full flex items-center">{pet.gender}</span>
-                                    </div>
-                                    <div className="tag my-4">{pet.loaction}</div>
-                                    <div className="pet-card-footer flex justify-between items-center">
-                                        <div style={{ fontFamily: "'Fraunces', serif" }} className="pet-price primary-text text-[1.5rem] font-bold flex items-center gap-1">৳{pet.adoptionfee}<span className="text-[12px] font-medium secondary-text">adoption fee</span></div>
-                                        <Link className="btn primary-btn btn-sm" href={`/public/all-pets/${pet._id}`}>
-                                            View Details
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-            </div>
         </div>
     );
 };

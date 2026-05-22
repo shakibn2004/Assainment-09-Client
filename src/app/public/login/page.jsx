@@ -81,7 +81,7 @@ const Login = () => {
         });
     }
     return (
-        <div className='m-auto shadow-[0_0_10px_#000]/30 bg-white dark:bg-black border border-white rounded-2xl p-10'>
+        <div className='m-auto shadow-[0_0_10px_#000]/30 bg-white dark:bg-black border border-white rounded-2xl p-10 h-fit w-fit mx-auto'>
             <div className="auth flex flex-col gap-2 mb-6">
                 <div >
                     <span><Image src="/icon.png" alt="Paw Home Icon" width={32} height={32} /></span>

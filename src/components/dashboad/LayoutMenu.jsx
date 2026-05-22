@@ -20,7 +20,7 @@ const LayoutMenu = () => {
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
     const pathName = usePathname();
     return (
-        <div className='max-w-60 w-[30%] secondary-bg h-screen hidden md:block'>
+        <div className='max-w-60 w-[30%] secondary-bg h-screen hidden md:block z-50'>
             <aside className={`sidebar ml-7 space-y-3 py-7 ${sidebarOpen ? "open" : ""}`}>
                 <div className='font-extrabold text-[1.15rem]'>Dashboard</div>
                 <div className="sidebar-title uppercase font-semibold secondary-text">Navigation</div>

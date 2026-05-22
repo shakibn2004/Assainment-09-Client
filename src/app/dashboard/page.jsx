@@ -3,6 +3,12 @@ import { redirect, useRouter } from 'next/navigation';
 import { authClient } from '../lib/auth-client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { CiBoxList } from 'react-icons/ci';
+import { MdOutlineEventAvailable, MdPlaylistAddCheckCircle, MdReviews } from 'react-icons/md';
+import { GrUploadOption } from 'react-icons/gr';
+import { FaCodePullRequest } from 'react-icons/fa6';
+import Image from 'next/image';
+import { date } from 'better-auth';
 
 const Dashboad = () => {
     const router = useRouter()
@@ -16,9 +22,9 @@ const Dashboad = () => {
                     `${process.env.NEXT_PUBLIC_LOCAL_URI}/public/all-adopted-pets`
                 )
 
-                const data = await res.json()
+                const allPetsData = await res.json()
 
-                setAllPets(data)
+                setAllPets(allPetsData)
             } catch (error) {
                 console.error(error)
             } finally {
@@ -43,8 +49,9 @@ const Dashboad = () => {
         (p) => p.buyeremail === session?.user?.email
     )
 
-    console.log(data)
-
+    const myListing = allPets.filter(p => session?.user?.email === p.owneremail);
+    const myRequest = allPets.filter(p => session?.user?.email === p.buyeremail);
+    const available = allPets.filter(p => p.isavailable);
     return (
         <div className="mx-auto w-full p-10">
             {
@@ -60,18 +67,24 @@ const Dashboad = () => {
 
                     <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-5">
                         {
-                            ['My Listings', 'Availabe', 'Adopted', 'My Requests', 'Pending Review'].map(p => {
+                            [
+                                { status: 'My Listing', icon: <MdPlaylistAddCheckCircle size={40} />, count: myListing.length },
+                                { status: 'Available', icon: <MdOutlineEventAvailable size={40} />, count: available.length },
+                                { status: 'Adopted', icon: <GrUploadOption size={40} />, count: allPets.length },
+                                { status: 'My Request', icon: <FaCodePullRequest size={40} />, count: myRequest.length },
+                                { status: 'Pending Reviews', icon: <MdReviews size={40} />, count: 5 }
+                            ].map(p => {
                                 return (
-                                    <div key={p[0]}
+                                    <div key={p.status}
 
                                         className="flex items-center gap-4 rounded-xl border border-zinc-200  p-5 shadow-sm"
                                     >
-                                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-2xl">
-                                            {'icon'}
+                                        <div className="flex h-15 w-15 shrink-0 items-center justify-center rounded-lg text-2xl">
+                                            {p.icon}
                                         </div>
                                         <div>
-                                            <div className="text-[2.25rem] font-bold tracking-tight">{0}</div>
-                                            <div className="text-xs font-medium secondary-text tracking-wider">{p}</div>
+                                            <div className="text-[2.25rem] font-bold tracking-tight">{p.count}</div>
+                                            <div className="text-xs font-medium secondary-text tracking-wider">{p.status}</div>
                                         </div>
                                     </div>
 
@@ -99,11 +112,13 @@ const Dashboad = () => {
 
                                 className="flex items-center gap-4 border border-zinc-200  p-4 shadow-sm rounded-xl transition-all hover:border-zinc-300"
                             >
-                                <img
+                                {/* <Image
+                                    width={20}
+                                    height={20}
                                     src={'r.petImage'}
                                     alt=""
                                     className="h-12 w-12 rounded-lg object-cover bg-zinc-100 shrink-0"
-                                />
+                                /> */}
 
                                 <div className="flex-1 min-w-0">
                                     <div className="font-semibold text-sm sm:text-base truncate">

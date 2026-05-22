@@ -46,7 +46,7 @@ const MyRequests = async () => {
 
                             ) : (
                                 <div className="w-full overflow-x-auto rounded-xl border border-zinc-200 bg-white shadow-sm">
-                                    <table className="w-full min-w-[600px] text-left border-collapse">
+                                    <table className="w-20 text-left border-collapse">
                                         <thead>
                                             <tr className="border-b border-zinc-200  text-xs font-semibold uppercase tracking-wider text-zinc-500">
                                                 <th className="p-4">Pet</th>
