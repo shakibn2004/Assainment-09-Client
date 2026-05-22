@@ -6,7 +6,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_LOCAL_URI,
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID,
