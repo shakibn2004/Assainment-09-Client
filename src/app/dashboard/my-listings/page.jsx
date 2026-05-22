@@ -5,6 +5,9 @@ import RequestModal from '@/components/common/RequestModal';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FaCodePullRequest, FaWallet } from 'react-icons/fa6';
+import { MdOutlineEventAvailable } from 'react-icons/md';
+import { SiMercadopago } from 'react-icons/si';
 
 
 const MyListings = async () => {
@@ -21,23 +24,29 @@ const MyListings = async () => {
         <div className='flex flex-col flex-1'>
             {
                 session?.user ? (
-                    <div className="mx-auto max-w-5xl px-4 py-6 ">
+                    <div className="mx-auto max-w-5xl md:px-4 py-6 ">
 
                         {/* Overview Metrics Cards */}
                         <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                            {
+                                [{ icon: <FaWallet />, status: 'Total' }, { icon: <MdOutlineEventAvailable />, status: 'Available' }, { icon: <SiMercadopago />, status: 'Adopted' }, { icon: <FaCodePullRequest />, status: 'Request' }].map(p => {
+                                    return (
+                                        < div key={p}
+                                            className="flex items-center gap-4 rounded-xl border border-zinc-200  p-5 shadow-sm"
+                                        >
+                                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-2xl">
+                                                {p.icon}
+                                            </div>
+                                            <div>
+                                                <div className="text-xl font-bold tracking-tight ">{0}</div>
+                                                <div className="text-xs font-medium uppercase tracking-wider secondary-text">{p.status}</div>
+                                            </div>
+                                        </div>
 
-                            <div
+                                    )
 
-                                className="flex items-center gap-4 rounded-xl border border-zinc-200  p-5 shadow-sm"
-                            >
-                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-2xl">
-                                    {'stat.icon'}
-                                </div>
-                                <div>
-                                    <div className="text-xl font-bold tracking-tight ">{'stat.num'}</div>
-                                    <div className="text-xs font-medium uppercase tracking-wider ">{'stat.label'}</div>
-                                </div>
-                            </div>
+                                })
+                            }
 
                         </div>
 
@@ -140,7 +149,7 @@ const MyListings = async () => {
                     </div>
                 )
             }
-        </div>
+        </div >
     );
 };
 

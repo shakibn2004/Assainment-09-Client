@@ -1,7 +1,7 @@
 'use client'
 import { Button, Modal } from '@heroui/react';
 
-const EditModal = ({ handleEdit, currentData }) => {
+const EditModal = ({ handleEdit }) => {
     return (
         <div>
             <Modal>

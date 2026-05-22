@@ -5,13 +5,13 @@ import React from 'react';
 const Features = ({ pets }) => {
     return (
         <div className='dark:bg-black dark:text-white py-10'>
-            <div className='max-w-300 w-[75%] mx-auto'>
+            <div className='max-w-300 w-[90%] md:w-[75%] mx-auto'>
                 <div className="space-y-2">
                     <p className="uppercase primary-text font-semibold">Featured Pets</p>
                     <h1 style={{ fontFamily: "'Fraunces', serif" }} className='text-[2.1rem] font-bold'>Pets Looking for a Home</h1>
                     <p className="secondary-text font-semibold">Every pet here has been verified by our shelter partners.</p>
                 </div>
-                <div className="pets-container grid grid-cols-3 gap-6">
+                <div className="pets-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {
                         pets.slice(0, 6).map((pet, idx) => {
                             return (

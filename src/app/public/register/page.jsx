@@ -28,7 +28,7 @@ const Register = () => {
             },
 
             onSuccess: () => {
-                toast.successs('Signup success', {
+                toast.success('Signup success', {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,

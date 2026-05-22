@@ -1,31 +1,42 @@
+import { auth } from "@/app/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
 const AllPets = async () => {
-    const petPromised = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}`)
+
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    })
+    const petPromised = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    });
     const pets = await petPromised.json();
+    console.log(pets);
 
     return (
-        <div className="max-w-300 w-[75%] mx-auto py-20 ">
+        <div className="max-w-300 w-[90%] lg:w-[75%] mx-auto py-20 ">
             <div className="space-y-2">
                 <p className="uppercase primary-text font-semibold">Adoption center</p>
                 <h1 style={{ fontFamily: "'Fraunces', serif" }} className='text-[2.5rem] font-bold'>All Available Pets</h1>
                 <p className="secondary-text font-semibold">Browse, search, and filter to find your perfect companion.</p>
             </div>
 
-            <div className="flex gap-4 mt-12 justify-between items-center">
+            <div className="grid grid-cols-[2fr_1fr] my-4 gap-3">
                 <input type="search" placeholder="Search pets by name" className="secondary-border grow-4 rounded p-2 focus:outline-1 outline-[#e8622a]" />
-                <select name="" className="secondary-border grow-1 rounded py-2.5 px-2 focus:outline-1 outline-[#e8622a]" id="">
+                <select name="" className="secondary-border grow rounded py-2.5 px-2 focus:outline-1 outline-[#e8622a]" id="">
                     <option value="">All</option>
                     <option value="">Dogs</option>
                     <option value="">Cats</option>
                     <option value="">Birds</option>
                     <option value="">Rabbits</option>
                 </select>
-                <div className="total-found secondary-text">founds{pets.length}</div>
+                <div className="total-found secondary-text col-start-2 place-self-end px-2">Founds{pets.length}</div>
             </div>
 
-            <div className="pets-container grid grid-cols-3 gap-6">
+            <div className="pets-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {
                     pets.map((pet, idx) => {
                         return (

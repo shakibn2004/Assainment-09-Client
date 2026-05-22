@@ -2,19 +2,48 @@
 import { redirect, useRouter } from 'next/navigation';
 import { authClient } from '../lib/auth-client';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const Dashboad = () => {
     const router = useRouter()
+    const [allPets, setAllPets] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function allPetsFn() {
+            try {
+                const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_LOCAL_URI}/public/all-adopted-pets`
+                )
+
+                const data = await res.json()
+
+                setAllPets(data)
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        allPetsFn()
+    }, [])
+
     const {
         data: session,
         isPending,
         error
-    } = authClient.useSession();
+    } = authClient.useSession()
 
-    if (isPending) {
-        return <p>Loading...</p>;
+    if (isPending || loading) {
+        return <p>Loading...</p>
     }
 
+    const myListings = allPets.filter(
+        (p) => p.buyeremail === session?.user?.email
+    )
+
+    console.log(data)
 
     return (
         <div className="mx-auto w-full p-10">
@@ -29,20 +58,27 @@ const Dashboad = () => {
                     </header>
 
 
-                    <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-5">
+                        {
+                            ['My Listings', 'Availabe', 'Adopted', 'My Requests', 'Pending Review'].map(p => {
+                                return (
+                                    <div key={p[0]}
 
-                        <div
+                                        className="flex items-center gap-4 rounded-xl border border-zinc-200  p-5 shadow-sm"
+                                    >
+                                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-2xl">
+                                            {'icon'}
+                                        </div>
+                                        <div>
+                                            <div className="text-[2.25rem] font-bold tracking-tight">{0}</div>
+                                            <div className="text-xs font-medium secondary-text tracking-wider">{p}</div>
+                                        </div>
+                                    </div>
 
-                            className="flex items-center gap-4 rounded-xl border border-zinc-200  p-5 shadow-sm"
-                        >
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-2xl">
-                                {'icon'}
-                            </div>
-                            <div>
-                                <div className="text-[2.25rem] font-bold tracking-tight">{0}</div>
-                                <div className="text-xs font-medium secondary-text tracking-wider">{'label'}</div>
-                            </div>
-                        </div>
+                                )
+
+                            })
+                        }
 
                     </div>
 

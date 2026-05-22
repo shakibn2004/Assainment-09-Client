@@ -8,9 +8,9 @@ const Hero = async () => {
     const pets = await petsPromised.json()
 
     return (
-        <div>
+        <div className='dark:bg-black bg-linear-to-br dark:from-black dark:to-black from-amber-50 to-orange-100'>
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-linear-to-br dark:from-black dark:to-black from-amber-50 to-orange-100 py-16 px-4 sm:px-6 lg:px-8">
+            <section className="relative overflow-hidden w-[90%] lg:w-[75%] mx-auto py-16 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
                     {/* Hero Content */}

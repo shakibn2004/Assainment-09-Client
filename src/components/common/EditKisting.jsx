@@ -26,7 +26,6 @@ const EditKisting = ({ id }) => {
             
             
             if (data.modifiedCount > 0) {
-                router.refresh()
                 toast.success('Pet information updated', {
                     position: "top-center",
                     autoClose: 5000,
@@ -38,18 +37,9 @@ const EditKisting = ({ id }) => {
                     theme: "dark",
                     transition: Slide,
                 });
+                router.refresh()
             } else {
-                toast.success('error happend', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Slide,
-                });
+                <h1>hello</h1>
             }
         } catch (error) {
             console.error("Error updating data:", error);

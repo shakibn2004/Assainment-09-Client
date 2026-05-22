@@ -6,6 +6,7 @@ import React from 'react';
 import ThemeToggle from './ThemeToggle';
 import { useShowDropDownMenu } from '@/hookes/ShowDropDownMenu';
 import { authClient } from '@/app/lib/auth-client';
+import { MdOutlineMenu } from 'react-icons/md';
 
 const user = true;
 
@@ -76,8 +77,9 @@ const Navbar = () => {
                 {
                     session ? (
                         <div>
-                            <div className="profile-btn cursor-pointer" onClick={() => setShowDropdown(d => !d)}>
-                                <h1 className='text-[2.2rem] font-bold primary-bg text-white p-1 rounded-full w-12 h-12 flex items-center justify-center'>{session?.user?.name.slice(0, 1)}</h1>
+                            <div className="profile-btn cursor-pointer">
+                                <h1 onClick={() => setShowDropdown(d => !d)} className='text-[2.2rem] hidden md:flex font-bold primary-bg text-white p-1 rounded-full w-12 h-12 items-center justify-center'>{session?.user?.name.slice(0, 1)}</h1>
+                                <MdOutlineMenu className='md:hidden' size={30} />
                             </div>
                             {showDropdown && (
                                 <div className="dropdown absolute right-0 top-16 w-48 bg-white dark:bg-black border rounded-lg shadow-lg p-4 z-10">
@@ -87,7 +89,7 @@ const Navbar = () => {
                                     </div>
                                     <Link href="/dashboard" className="dropdown-item" onClick={() => setShowDropdown(false)}>📊 Dashboard</Link>
                                     <Link href="/dashboard/my-listings" className="dropdown-item" onClick={() => setShowDropdown(false)}>📋 My Listings</Link>
-                                    <button onClick={session ? handleSingOut : ""} className="dropdown-item" >{session ? "Logout" : "Login"}</button>
+                                    <button onClick={session ? handleSingOut : ""} className="dropdown-item primary-btn" >{session ? "Logout" : "Login"}</button>
                                 </div>
                             )}
                         </div>
