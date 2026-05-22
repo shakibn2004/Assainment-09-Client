@@ -1,7 +1,7 @@
 'use client'
 import { Button, Modal } from '@heroui/react';
 
-const EditModal = ({ handleEdit }) => {
+const EditModal = ({ handleEdit, currentData }) => {
     return (
         <div>
             <Modal>
@@ -13,7 +13,7 @@ const EditModal = ({ handleEdit }) => {
                             <div className='flex flex-col flex-1'>
                                 <div className="py-12 px-10 w-full mx-auto">
                                     <div className="mb-8 pl-0.5">
-                                        <h1 className="text-3xl font-serif font-bold tracking-tight">Add a Pet</h1>
+                                        <h1 className="text-3xl font-serif font-bold tracking-tight">Update pet information</h1>
                                         <p className="secondary-text text-sm mt-1">Fill in the details below to list a pet for adoption.</p>
                                     </div>
 
@@ -24,7 +24,7 @@ const EditModal = ({ handleEdit }) => {
 
                                                 <div className="flex flex-col gap-1">
                                                     <label htmlFor="ap_name" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Pet Name</label>
-                                                    <input type="text" name="name" id="ap_name" placeholder="e.g. Biscuit" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required/>
+                                                    <input type="text" name="name" id="ap_name" placeholder="e.g. Biscuit" className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" required />
                                                 </div>
 
                                                 <div className="flex flex-col gap-1">
@@ -67,7 +67,7 @@ const EditModal = ({ handleEdit }) => {
 
                                                 <div className="flex flex-col gap-1">
                                                     <label htmlFor="ap_image" className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Pet Image URL</label>
-                                                    <input type="url" id="ap_image" name="image" placeholder="https://..." className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white"/>
+                                                    <input type="url" id="ap_image" name="image" placeholder="https://..." className="px-3 py-2 text-sm rounded-md border border-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white" />
                                                 </div>
 
                                                 <div className="flex flex-col gap-1">

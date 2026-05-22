@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const AllPets = async () => {
-    const petPromised = await fetch("http://localhost:8000")
+    const petPromised = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}`)
     const pets = await petPromised.json();
 
     return (
@@ -45,7 +45,7 @@ const AllPets = async () => {
                                     </div>
                                     <div className="tag my-4">{pet.loaction}</div>
                                     <div className="pet-card-footer flex justify-between items-center">
-                                        <div style={{ fontFamily: "'Fraunces', serif" }} className="pet-price primary-text text-[1.5rem] font-bold flex items-center gap-1">৳500 <span className="text-[12px] font-medium secondary-text">adoption fee</span></div>
+                                        <div style={{ fontFamily: "'Fraunces', serif" }} className="pet-price primary-text text-[1.5rem] font-bold flex items-center gap-1">৳{pet.adoptionfee}<span className="text-[12px] font-medium secondary-text">adoption fee</span></div>
                                         <Link className="btn primary-btn btn-sm" href={`/public/all-pets/${pet._id}`}>
                                             View Details
                                         </Link>

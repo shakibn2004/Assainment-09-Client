@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 
 const PetInfo = async ({ params }) => {
@@ -14,7 +15,7 @@ const PetInfo = async ({ params }) => {
     const petObj = await params;
     const { petinfo } = petObj;
 
-    const petPromised = await fetch(`http://localhost:8000/public/all-pets/${petinfo}`, {
+    const petPromised = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}/public/all-pets/${petinfo}`, {
         cache: 'no-store'
     });
     const pet = await petPromised.json();
@@ -25,7 +26,7 @@ const PetInfo = async ({ params }) => {
         'use server'
         const today = new Date().toISOString().split("T")[0];
         const data = Object.fromEntries(formData.entries());
-        const allData = { ...data, ...pet, requeststatus: "pending", requestdate: today}
+        const allData = { ...data, ...pet, requeststatus: "Pending", requestdate: today }
         // send data to server
         try {
 
@@ -34,7 +35,7 @@ const PetInfo = async ({ params }) => {
 
 
             const res = await fetch(
-                `http://localhost:8000/public/all-pets/${petinfo}`,
+                `${process.env.NEXT_PUBLIC_LOCAL_URI}/public/all-pets/${petinfo}`,
                 {
                     method: 'POST',
                     headers: {
@@ -46,8 +47,9 @@ const PetInfo = async ({ params }) => {
 
 
             if (!res.ok) {
-                throw new Error('Failed to send adoption request');
+
             }
+            
 
             const result = await res.json();
 
@@ -66,7 +68,7 @@ const PetInfo = async ({ params }) => {
 
 
             const response = await fetch(
-                `http://localhost:8000/dashboard/my-listings/${petinfo}`,
+                `${process.env.NEXT_PUBLIC_LOCAL_URI}/dashboard/my-listings/${petinfo}`,
                 {
                     method: 'PATCH',
                     headers: {
@@ -83,6 +85,7 @@ const PetInfo = async ({ params }) => {
 
             // Sccess
             revalidatePath(`/public/all-pets/${[petinfo]}`)
+            
 
         } catch (error) {
 
@@ -208,7 +211,7 @@ const PetInfo = async ({ params }) => {
                                             </div>
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">Your Name</label>
-                                                <input className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session?.user?.name} readOnly />
+                                                <input name='buyername' className="w-full text-gray-500 border border-gray-200/30 rounded-lg px-3 py-2 text-sm cursor-not-allowed" value={session?.user?.name} readOnly />
                                             </div>
                                         </div>
 

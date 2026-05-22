@@ -4,6 +4,7 @@ import { Description, FieldError, Form, Input, Label, TextField } from "@heroui/
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Slide, toast } from "react-toastify";
 
 const Register = () => {
     const [password, setPassword] = useState('');
@@ -13,8 +14,8 @@ const Register = () => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const userData = Object.fromEntries(formData.entries());
-        
-        const {name, email, password} = userData;
+
+        const { name, email, password } = userData;
 
         const { data, error } = await authClient.signUp.email({
             email,
@@ -27,11 +28,31 @@ const Register = () => {
             },
 
             onSuccess: () => {
-                alert('signup success')
+                toast.successs('Signup success', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Slide,
+                });
             },
 
             onError: (ctx) => {
-                alert(ctx.error.message);
+                toast.success(ctx.error.message, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Slide,
+                });
             },
         });
     };

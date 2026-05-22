@@ -4,7 +4,7 @@ import React from 'react';
 import Features from './Features';
 
 const Hero = async () => {
-    const petsPromised = await fetch('http://localhost:8000')
+    const petsPromised = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}`)
     const pets = await petsPromised.json()
 
     return (
@@ -16,7 +16,7 @@ const Hero = async () => {
                     {/* Hero Content */}
                     <div className="space-y-6 text-center lg:text-left">
                         <div className="inline-flex items-center gap-2 secondary-border primary-text dark:border-white text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm">
-                            🐾 Bangladesh's Trusted Pet Adoption Portal
+                             Bangladesh's Trusted Pet Adoption Portal
                         </div>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white tracking-tight leading-tight">
                             Find Your <em className="text-amber-600 not-italic font-serif">Forever</em> Furry Friend
@@ -26,11 +26,11 @@ const Hero = async () => {
                         </p>
                         <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
                             <Link
-                                href={'/public'}
+                                href={'/public/all-pets'}
                                 className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-base px-7 py-3.5 rounded-xl shadow-lg transition-colors duration-200"
 
                             >
-                                🐾 Adopt Now
+                                Adopt Now
                             </Link>
                             <Link
                                 href={'/public/all-pets'}

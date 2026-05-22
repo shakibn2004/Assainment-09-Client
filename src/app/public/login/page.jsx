@@ -1,8 +1,9 @@
 'use client';
 import { authClient } from "@/app/lib/auth-client";
-import { Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
+import { AlertTitle, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { Bounce, Slide, toast } from "react-toastify";
 
 const Login = () => {
     const handleSubmit = async (e) => {
@@ -19,15 +20,45 @@ const Login = () => {
             callbackURL: "/dashboard",
         }, {
             onRequest: () => {
-                console.log('Loading...');
+                toast.success("processing", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Slide,
+                });
             },
 
             onSuccess: () => {
-                alert('signin success')
+                toast.success("Sign in Success", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Slide,
+                });
             },
 
             onError: (ctx) => {
-                alert(ctx.error.message);
+                toast.success(ctx.error.message, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Slide,
+                });
             },
         });
     };
@@ -35,6 +66,18 @@ const Login = () => {
     const handleGoogleSignin = async () => {
         const data = await authClient.signIn.social({
             provider: "google",
+        });
+
+        toast.success('You are sign with google', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Slide,
         });
     }
     return (

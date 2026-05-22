@@ -6,11 +6,11 @@ const HandleCancelRequest = ({ myRequestedData, id }) => {
     const router = useRouter()
     const handleCancel = async () => {
         const filterMyRequest = myRequestedData.filter(r => r._id !== id);
-        const petRes = await fetch('http://localhost:8000');
+        const petRes = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}`);
         const pet = await petRes.json();
         try {
 
-            const response = await fetch(`http://localhost:8000/dashboard/my-requests/${id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_URI}/dashboard/my-requests/${id}`, {
                 method: 'DELETE',
             });
 
@@ -35,7 +35,7 @@ const HandleCancelRequest = ({ myRequestedData, id }) => {
 
 
             const updateResponse = await fetch(
-                `http://localhost:8000/dashboard/my-listings/${id}`,
+                `${process.env.NEXT_PUBLIC_LOCAL_URI}/dashboard/my-listings/${id}`,
                 {
                     method: 'PATCH',
                     headers: {
@@ -78,22 +78,3 @@ const HandleCancelRequest = ({ myRequestedData, id }) => {
 
 export default HandleCancelRequest;
 
-const handleDeletePet = async () => {
-    try {
-
-        const response = await fetch(`http://localhost:8000/dashboard/my-listings/${id}`, {
-            method: 'DELETE',
-        });
-
-        const data = await response.json();
-
-
-        if (data.deletedCount > 0) {
-
-            // toast here
-            router.refresh()
-        }
-    } catch (error) {
-        console.error(error);
-    }
-};
